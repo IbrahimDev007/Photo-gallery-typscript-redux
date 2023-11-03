@@ -5,7 +5,7 @@ import "./index.css";
 import { configureStore } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
 import AuthProvider from "./Provider/Provider.tsx";
-
+import imageReducer from "./Redux/imageSlice.tsx";
 const store = configureStore({
 	reducer: {
 		images: imageReducer,
