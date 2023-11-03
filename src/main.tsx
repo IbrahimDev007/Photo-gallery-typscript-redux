@@ -8,7 +8,7 @@ import AuthProvider from "./Provider/Provider.tsx";
 
 const store = configureStore({
 	reducer: {
-		images: "",
+		images: imageReducer,
 	},
 });
 
