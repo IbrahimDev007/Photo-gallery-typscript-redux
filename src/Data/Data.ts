@@ -1,4 +1,4 @@
-type ImageItem = {
+export type ImageItem = {
 	image: string;
 	selected: boolean;
 };

@@ -1,25 +1,26 @@
 import Swal from "sweetalert2";
-import { AuthContextType } from "../Provider/Provider";
 import useAuthHook from "../Hook/useAuthHook";
 
 const Login = () => {
-	const { user, googleSignIn, logOut, loading }: AuthContextType =
-		useAuthHook();
+	const { user, googleSignIn, logOut, loading } = useAuthHook();
+
 	const handleGoogle = () => {
 		//google login and show swwet allert
 		googleSignIn()
-			.then((result) => {
-				Swal.fire({
-					title: `${result.user.displayName} Login Successful`,
-					showClass: {
-						popup: "animate__animated animate__fadeInDown",
-					},
-					hideClass: {
-						popup: "animate__animated animate__fadeOutUp",
-					},
-				});
+			.then((user) => {
+				if (user) {
+					Swal.fire({
+						title: `${user.displayName} Login Successful`,
+						showClass: {
+							popup: "animate__animated animate__fadeInDown",
+						},
+						hideClass: {
+							popup: "animate__animated animate__fadeOutUp",
+						},
+					});
+				}
 			})
-			.catch((error) => {
+			.catch((error: string) => {
 				console.error(error);
 			});
 	};
@@ -29,7 +30,7 @@ const Login = () => {
 			.then(() => {
 				Swal.fire("Logout Successful");
 			})
-			.catch((error) => {
+			.catch((error: string) => {
 				console.error(error);
 			});
 	};
@@ -40,13 +41,16 @@ const Login = () => {
 			{loading ? (
 				<p>Loading...</p>
 			) : user ? (
-				<div>
+				<div className="flex justify-center items-center flex-col">
 					<div className="avatar online">
-						<div className="w-24 rounded-full">
-							<img src={user.photoURL} alt="User Avatar" />
+						<div className="w-12 rounded-full">
+							<img src={user.photoURL!} alt="User Avatar" />
 						</div>
 					</div>
-					<button className="btn" onClick={handleLogout}>
+					<button
+						className="btn btn-sm btn-error btn-outline"
+						onClick={handleLogout}
+					>
 						Logout
 					</button>
 				</div>

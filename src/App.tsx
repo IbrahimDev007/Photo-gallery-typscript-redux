@@ -8,11 +8,12 @@ import {
 	CalcCount,
 } from "./Redux/imageSlice";
 import Login from "./Component/Login";
+import { ImageItem } from "./Data/Data";
 
 interface RootState {
 	images: {
 		Count: number;
-		imageItems: arr[];
+		imageItems: ImageItem[];
 	};
 }
 
@@ -28,7 +29,7 @@ const App = () => {
 
 	//image file uploade
 	const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const file = e.target.files[0];
+		const file = e.target.files?.[0] || null;
 		if (file) {
 			const reader = new FileReader();
 			reader.onload = () => {
@@ -74,7 +75,7 @@ const App = () => {
 				{count > 0 ? (
 					<>
 						<div className="flex items-center">
-							<input type="checkbox" checked="checked" />
+							<input type="checkbox" checked={true} />
 							<span className="font-medium text-lg">
 								{count} Files Selected
 							</span>

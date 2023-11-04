@@ -12,10 +12,10 @@ import { app } from "../Firebase/firebase.config";
 
 export type AuthContextType = {
 	user: User | null;
-	loading: boolean;
-	googleSignIn: () => Promise<void>;
+	googleSignIn: () => Promise<User | null>;
 	logOut: () => Promise<void>;
 	updateUserProfile: (name: string, photo: string) => Promise<void>;
+	loading: boolean;
 };
 
 export const AuthContext = createContext<AuthContextType | null>(null); //export auth context to use everywher by useauth context
@@ -34,10 +34,19 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 
 	const googleProvider = new GoogleAuthProvider();
 	//google promise for login by firebase
-	const googleSignIn = () => {
+	const googleSignIn = async (): Promise<User | null> => {
 		setLoading(true);
-		return signInWithPopup(auth, googleProvider);
+		try {
+			const result = await signInWithPopup(auth, googleProvider);
+			return result.user; // Return the user object after successful sign-in
+		} catch (error) {
+			console.error(error);
+			return null;
+		} finally {
+			setLoading(false);
+		}
 	};
+
 	//google promise for logout by firebase
 	const logOut = () => {
 		setLoading(false);
@@ -46,10 +55,9 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 	};
 	// update profile for data future uses and store firebase
 	const updateUserProfile = (name: string, photo: string) => {
-		return updateProfile(auth.currentUser, {
+		return updateProfile(auth.currentUser!, {
 			displayName: name,
 			photoURL: photo,
-			role: "user",
 		});
 	};
 	//midalware firebase authstate change

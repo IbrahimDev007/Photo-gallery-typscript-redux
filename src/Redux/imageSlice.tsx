@@ -1,8 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { data } from "../Data/Data";
+
+import { data, ImageItem } from "../Data/Data";
 
 type ImageState = {
-	imageItems: arr[];
+	imageItems: ImageItem[];
 	Count: number;
 };
 
