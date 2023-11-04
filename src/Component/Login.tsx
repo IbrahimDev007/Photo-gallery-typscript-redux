@@ -1,5 +1,6 @@
 import Swal from "sweetalert2";
 import useAuthHook from "../Hook/useAuthHook";
+import { FcGoogle } from "react-icons/fc";
 
 const Login = () => {
 	const { user, googleSignIn, logOut, loading } = useAuthHook();
@@ -56,7 +57,12 @@ const Login = () => {
 				</div>
 			) : (
 				<div>
-					<button onClick={handleGoogle}>Login with Google</button>
+					<button
+						onClick={handleGoogle}
+						className="btn btn-square btn-success btn-outline  text-xs flex items-center justify-center"
+					>
+						<FcGoogle className="text-4xl" />
+					</button>
 				</div>
 			)}
 		</div>
